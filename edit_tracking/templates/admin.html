@@ -1,0 +1,69 @@
+{% extends 'one-up.html' %}
+
+{% block main_content %}
+    <div class="row pt-2">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6">
+            <h1>Administration</h1>
+            <p>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add-user" data-permissions="none">
+                    <span class="oi oi-plus"></span>
+                </button>
+            </p>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Permissions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for u in g.users %}
+                    <tr data-href="#" data-toggle="modal" data-target="#modal-add-user" data-email="{{ u.email }}" data-permissions="{{ ' '.join(u.permissions) }}">
+                        <td>{{ u.email }}</td>
+                        <td>
+                        {% for p in u.permissions %}
+                            <span class="badge badge-pill badge-dark">{{ p }}</span>
+                        {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-add-user">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">User permissions</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-add-user" action="{{ url_for('admin_edit_user') }}" method="post">
+                        <div class="form-group">
+                            <label for="add-user-email">Email address</label>
+                            <input type="email" name="email" class="form-control" id="add-user-email" placeholder="user@example.com" required>
+                        </div>
+                        {% for p, d in g.available_permissions.items() %}
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="permission-{{ p }}" name="permissions" value="{{ p }}">
+                            <label class="form-check-label" for="permission-{{ p }}">{{ p }}</label>
+                            <small class="form-text text-muted">{{ d }}</small>
+                        </div>
+                        {% endfor %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" form="form-add-user">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block end_of_body %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+{% endblock %}

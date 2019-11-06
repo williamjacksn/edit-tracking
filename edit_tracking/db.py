@@ -8,6 +8,26 @@ from typing import Dict, List
 class Database(fort.PostgresDatabase):
     _version: int = None
 
+    def get_permissions(self, email: str) -> List[str]:
+        sql = 'SELECT permissions FROM permissions WHERE email = %(email)s'
+        permissions = self.q_val(sql, {'email': email})
+        if permissions is None:
+            return []
+        return sorted(set(permissions.split()))
+
+    def set_permissions(self, email: str, permissions: List[str]):
+        params = {'email': email, 'permissions': ' '.join(sorted(set(permissions)))}
+        sql = 'DELETE FROM permissions WHERE email = %(email)s'
+        self.u(sql, params)
+        if permissions:
+            sql = 'INSERT INTO permissions (email, permissions) VALUES (%(email)s, %(permissions)s)'
+            self.u(sql, params)
+
+    def get_users(self):
+        sql = 'SELECT email, permissions FROM permissions ORDER BY email'
+        for record in self.q(sql):
+            yield {'email': record['email'], 'permissions': record['permissions'].split()}
+
     def add_edit_tracking(self, params: Dict):
         sql = '''
             INSERT INTO edit_tracking (
@@ -23,9 +43,7 @@ class Database(fort.PostgresDatabase):
         self.u(sql, params)
 
     def delete_edit_tracking(self, record_id: uuid.UUID):
-        sql = '''
-            DELETE FROM edit_tracking WHERE id = %(id)s
-        '''
+        sql = 'DELETE FROM edit_tracking WHERE id = %(id)s'
         params = {'id': record_id}
         self.u(sql, params)
 
@@ -35,6 +53,7 @@ class Database(fort.PostgresDatabase):
                 id, created_at, month, year, clin, taskit_number, researchers_edit_number, project, received_on,
                 claimed_on, editor, editing_transcription, edit_completed_on, review_completed_on, total_pages, notes
             FROM edit_tracking
+            ORDER BY created_at DESC
         '''
         return self.q(sql)
 

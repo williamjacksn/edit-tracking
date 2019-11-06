@@ -4,6 +4,8 @@ services:
   edit-tracking:
     image: docker.pkg.github.com/williamjacksn/edit-tracking/edit-tracking
     build: .
+    ports:
+      - 8080:8080
 
   postgres:
     image: docker.pkg.github.com/williamjacksn/mirror/postgres:11.5-alpine
