@@ -7,7 +7,7 @@ RUN /sbin/apk add --no-cache --virtual .deps gcc musl-dev postgresql-dev \
  && /usr/local/bin/pip install --no-cache-dir --requirement /edit-tracking/requirements.txt \
  && /sbin/apk del --no-cache .deps
 
-ENV APP_VERSION="2019.1" \
+ENV APP_VERSION="2019.2" \
     PYTHONUNBUFFERED="1" \
     TZ="America/Chicago"
 
