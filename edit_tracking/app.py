@@ -73,6 +73,11 @@ def authorize():
     return flask.redirect(flask.url_for('index'))
 
 
+@app.route('/health-check')
+def health_check():
+    return 'ok'
+
+
 @app.route('/', methods=['GET', 'POST'])
 @permission_required('admin')
 def index():

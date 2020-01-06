@@ -13,7 +13,7 @@ ENV APP_VERSION="2020.1" \
 
 ENTRYPOINT ["/usr/local/bin/python"]
 CMD ["/edit-tracking/run.py"]
-HEALTHCHECK CMD ["/usr/bin/wget", "--spider", "--quiet", "http://localhost:8080/"]
+HEALTHCHECK CMD ["/usr/bin/wget", "--spider", "--quiet", "http://localhost:8080/health-check"]
 
 LABEL org.opencontainers.image.authors="William Jackson <william@subtlecoolness.com>" \
       org.opencontainers.image.source="https://github.com/williamjacksn/edit-tracking" \
