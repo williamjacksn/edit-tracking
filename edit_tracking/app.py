@@ -41,7 +41,7 @@ def permission_required(permission: str):
 
 @app.before_request
 def setup_request():
-    app.logger.info(f'{flask.request.method} {flask.request.path}')
+    app.logger.debug(f'{flask.request.method} {flask.request.path}')
     if settings.permanent_sessions:
         flask.session.permanent = True
     flask.g.settings = settings
