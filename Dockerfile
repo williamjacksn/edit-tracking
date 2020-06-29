@@ -1,6 +1,6 @@
 FROM python:3.8.3-alpine3.12
 
-RUN /sbin/apk/add --no-cache libpq
+RUN /sbin/apk add --no-cache libpq
 
 COPY requirements.txt /edit-tracking/requirements.txt
 
