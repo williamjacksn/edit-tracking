@@ -1,9 +1,10 @@
 FROM python:3.8.3-alpine3.12
 
+RUN /sbin/apk/add --no-cache libpq
+
 COPY requirements.txt /edit-tracking/requirements.txt
 
 RUN /sbin/apk add --no-cache --virtual .deps gcc musl-dev postgresql-dev \
- && /sbin/apk add --no-cache libpq \
  && /usr/local/bin/pip install --no-cache-dir --requirement /edit-tracking/requirements.txt \
  && /sbin/apk del --no-cache .deps
 
