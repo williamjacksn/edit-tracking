@@ -4,9 +4,7 @@ RUN /sbin/apk add --no-cache libpq
 
 COPY requirements.txt /edit-tracking/requirements.txt
 
-RUN /sbin/apk add --no-cache --virtual .deps gcc musl-dev postgresql-dev \
- && /usr/local/bin/pip install --no-cache-dir --requirement /edit-tracking/requirements.txt \
- && /sbin/apk del --no-cache .deps
+RUN /usr/local/bin/pip install --no-cache-dir --requirement /edit-tracking/requirements.txt
 
 ENV APP_VERSION="2020.5" \
     PYTHONUNBUFFERED="1" \
