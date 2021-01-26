@@ -6,7 +6,7 @@ COPY requirements.txt /edit-tracking/requirements.txt
 
 RUN /usr/local/bin/pip install --no-cache-dir --requirement /edit-tracking/requirements.txt
 
-ENV APP_VERSION="2020.5" \
+ENV APP_VERSION="2021.1" \
     PYTHONUNBUFFERED="1" \
     TZ="America/Chicago"
 
