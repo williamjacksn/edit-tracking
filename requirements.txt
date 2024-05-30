@@ -16,7 +16,7 @@ flask==2.1.1
     # via -r requirements.in
 fort==1.0.1
     # via -r requirements.in
-idna==3.3
+idna==3.7
     # via requests
 itsdangerous==2.1.2
     # via flask
